@@ -1,4 +1,3 @@
-
 let APIKey;
 
 
@@ -6,15 +5,20 @@ function searchPhotos() {
     
   let keyword = searchInput.value; 
 
-  const endpoint = `https://api.unsplash.com/search/photos?query=${keyword}&per_page=50&client_id=${APIKey}`;
+  const endpoint = `https://api.unsplash.com/search/photos?query=${keyword}&per_page=100&client_id=${APIKey}`;
+
+  let photoList = [];
 
   fetch(endpoint)
     .then(resp => resp.json())
-    .then(data => data.results.forEach(photo => {
-      searchSection.style.backgroundImage = `url(${photo.urls.regular})`;
+    .then(data => photoList.push(...data.results))
+    .then(function() {
+      let randomImage = Math.floor(Math.random() * photoList.length);
+      searchSection.style.backgroundImage = `url(${photoList[randomImage].urls.regular})`;
     })
-  );
+
 }
+
 
 function getRandomPhoto() {
 
@@ -26,7 +30,6 @@ function getRandomPhoto() {
       randomSection.style.backgroundImage = `url(${random.urls.regular})`;
     });
 }
-
 
 
 
